@@ -1,0 +1,90 @@
+---
+title: "Boston data test"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Import
+```{r}
+library(MASS) # 資料來源
+library(car) # VIF函數來源
+#mydata <- read.table(, header = TRUE, na.strings = "?")
+#mydata <- read.csv(, header = TRUE, na.strings = "?")
+```
+# Tidy
+```{r}
+my_Boston <- na.omit(Boston) # 移除含有空值的資料
+```
+## Begin Understand
+# Transform
+```{r}
+#summary(Boston)
+```
+
+crim : per capita crime rate by town.  
+zn : proportion of residential land zoned for lots over 25,000 sq.ft.  
+indus : proportion of non-retail business acres per town  
+chas : Charles River dummy variable (= 1 if tract bounds river; 0 otherwise).  
+nox : nitrogen oxides concentration (parts per 10 million).  
+rm : average number of rooms per dwelling.  
+age : proportion of owner-occupied units built prior to 1940.  
+dis : weighted mean of distances to five Boston employment centres.  
+rad : index of accessibility to radial highways.  
+tax : full-value property-tax rate per \$10,000.  
+ptratio : pupil-teacher ratio by town.  
+black : 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town.  
+lstat : lower status of the population (percent).  
+**medv : median value of owner-occupied homes in \$1000s.**
+```{r}
+#plot(rm, lstat)
+#hist(lstat, col=2, breaks = 15)
+#pairs(my_Boston)
+#pairs(~ + rm + crim + lstat)
+#cor(my_Boston)
+```
+
+# Visualize
+## interactive terms?
+## polynomial terms?
+Adjust this on preditors to make plot (residuals plot) a horizontal red line.  
+Adjust this on response to make residuals plot a uniform shape.
+
+## outliers? High leverage point?
+Residual plot tells which row
+
+## colinear?
+check if vif > 5
+
+# Model
+```{r}
+attach(my_Boston)
+lm.fit = lm(medv ~ ., data = my_Boston)
+summary(lm.fit)
+vif(lm.fit)
+lm.fit = lm(medv ~ . -age -indus - tax, data = my_Boston)
+summary(lm.fit)
+plot(lm.fit)
+lm.fit = lm(medv ~ . - tax - indus - age , data = my_Boston[-c(369, 372, 373), ])
+summary(lm.fit)
+plot(lm.fit)
+lm.fit3 = lm(medv ~ . - tax - indus - age + I(rm^2), data = my_Boston[-c(372, 373, 369), ])
+summary(lm.fit3)
+plot(lm.fit3)
+anova(lm.fit, lm.fit3)
+```
+
+## End Understand
+
+# Communicate
+
+```{r}
+lm.fit4 = lm(medv ~ . - tax - black - zn - rad - chas - indus - age + I(rm^2) + rm:lstat, data = my_Boston[-c(365, 370, 371, 372, 373, 369), ])
+summary(lm.fit4)
+plot(lm.fit4)
+# wierd data
+my_Boston[c(365, 370, 371, 372, 373, 369), ]
+```
+
