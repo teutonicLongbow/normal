@@ -11,4 +11,5 @@ Imports:
     rmarkdown,
     tidyverse,
     MASS,
-    ISLR
+    ISLR,
+    knitr
