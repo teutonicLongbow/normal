@@ -1,0 +1,14 @@
+Title: Test my CI
+Version: 1.0.0
+Date: 2020-04-30
+Authors@R: teuton("teu", "ton", email = "teuton@keywini.com",
+    role = c("aut", "cre"))
+Description: A practice for my first CI.
+License: MIT + file LICENSE
+Depends:
+    R (>= 2.10)
+Imports:
+    rmarkdown,
+    tidyverse,
+    MASS,
+    ISLR
