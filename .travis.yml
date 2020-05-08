@@ -1,0 +1,11 @@
+language: r
+script: make bacon
+cache: packages
+r_packages:
+  - rmarkdown
+  - tidyverse
+  - MASS
+  - ISLR
+  - knitr
+os:
+  - osx
