@@ -1,2 +1,2 @@
-bacon: First_markdown.Rmd
+bacon: Tester.Rmd
   Rscript -e 'rmarkdown::render("$<")'
